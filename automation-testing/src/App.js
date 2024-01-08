@@ -5,8 +5,6 @@ import Homepage from './components/Home/HomePage';
 import Signup from './components/SignUp/SignUp';
 import './App.css';
 
-// ... (imports remain unchanged)
-
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [users, setUsers] = useState([]);

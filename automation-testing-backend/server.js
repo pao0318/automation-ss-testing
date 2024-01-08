@@ -59,7 +59,6 @@ app.post('/api/login', async (req, res) => {
       const { username, password } = req.body;
   
       // Validate username and password (you may use bcrypt for password hashing)
-      // For simplicity, let's assume you have a User model with a findOne method
       const existingUser = await User.findOne({ username, password });
   
       if (existingUser) {
