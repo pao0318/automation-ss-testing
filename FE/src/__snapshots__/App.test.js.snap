@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="App"
+  >
+    <header
+      class="App-header"
+    >
+      <h1>
+        React Login App
+      </h1>
+      <nav>
+        <ul>
+          <li>
+            <a
+              href="/"
+            >
+              Home
+            </a>
+          </li>
+          <li />
+          <li>
+            <a
+              href="/login"
+            >
+              Login
+            </a>
+          </li>
+          <li>
+            <a
+              href="/signup"
+            >
+              Signup
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main
+      class="App-content"
+    >
+      <div>
+        <h1>
+          Login
+        </h1>
+        <form>
+          <div>
+            <label>
+              Username:
+              <input
+                type="text"
+                value=""
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Password:
+              <input
+                type="password"
+                value=""
+              />
+            </label>
+          </div>
+          <button
+            type="submit"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;

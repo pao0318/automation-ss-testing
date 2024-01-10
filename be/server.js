@@ -6,6 +6,12 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 8080;
 const uri ="mongodb+srv://pao0318:Nitrkl%402019@cluster0.5ejsm1x.mongodb.net/?retryWrites=true&w=majority";
+
+const puppeteer = require("puppeteer");
+const resemble = require("resemblejs");
+
+
+
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -25,6 +31,8 @@ const User = mongoose.model('User', userSchema);
 app.use(bodyParser.json());
 app.use(cors());
 // Routes
+
+
 app.post('/api/signup', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -71,7 +79,37 @@ app.post('/api/login', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-  
+
+  app.get('/api/capture-screenshot', async (req, res) => {
+    try {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto('http://localhost:3000/');
+        const screenshot = await page.screenshot();
+        await browser.close();
+
+        res.set('Content-Type', 'image/png');
+        res.send(screenshot);
+    } catch (error) {
+        console.error('Error capturing screenshot:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/api/compare-screenshots', async (req, res) => {
+  try {
+      const { base64Image1, base64Image2 } = req.body;
+
+      // Use a library like Resemble.js for image comparison
+      resemble(base64Image1).compareTo(base64Image2).ignoreAntialiasing().onComplete(result => {
+        res.json({ diffPercentage: result.rawMisMatchPercentage });
+      });
+  } catch (error) {
+      console.error('Error comparing screenshots:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

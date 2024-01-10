@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Homepage from './components/Home/HomePage';
-import Signup from './components/SignUp/SignUp';
+import Login from './components/Login/Login.js';
+import Homepage from './components/Home/HomePage.js';
+import Signup from './components/SignUp/SignUp.js';
 import './App.css';
 
 const App = () => {
