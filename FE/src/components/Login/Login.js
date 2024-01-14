@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import TakeScreenShots from '../../Functions/TakeScreenShots';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -29,13 +30,11 @@ const Login = ({ onLogin }) => {
         const result = await response.json();
         console.log(result.message);
         setErrorMessage('');
-        
-        // Use the onLogin callback (if provided)
         if (onLogin) {
           onLogin();
         }
 
-        navigate('/');
+        navigate('/home');
       } else {
         const error = await response.json();
         console.error(error.error);
@@ -50,6 +49,7 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h1>Login</h1>
+      <TakeScreenShots shouldCapture={true}/>
       <form onSubmit={handleLogin}>
         <div>
           <label>

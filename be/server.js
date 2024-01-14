@@ -7,8 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const uri ="mongodb+srv://pao0318:Nitrkl%402019@cluster0.5ejsm1x.mongodb.net/?retryWrites=true&w=majority";
 
-const puppeteer = require("puppeteer");
-const resemble = require("resemblejs");
+
+const fs = require('fs');
+const path = require('path');
 
 
 
@@ -80,33 +81,22 @@ app.post('/api/login', async (req, res) => {
     }
   });
 
-  app.get('/api/capture-screenshot', async (req, res) => {
-    try {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.goto('http://localhost:3000/');
-        const screenshot = await page.screenshot();
-        await browser.close();
 
-        res.set('Content-Type', 'image/png');
-        res.send(screenshot);
-    } catch (error) {
-        console.error('Error capturing screenshot:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
+app.post('/api/save-screenshot', async(req, res) => {
+  try{
+    const { dataUrl } = req.body;
+    const base64Data = dataUrl.split(',')[1];
+    const binaryData = Buffer.from(base64Data, 'base64');
+    const fileName = `screenshot_${Date.now()}.png`;
 
-app.post('/api/compare-screenshots', async (req, res) => {
-  try {
-      const { base64Image1, base64Image2 } = req.body;
+    const filePath = path.join(__dirname, '..', 'fe', 'public', 'screenshots', 'Login', fileName);
+    fs.writeFileSync(filePath, binaryData);
+    console.log('Screenshot saved:', filePath);
+    res.status(200).json({ message: 'Screenshot saved on the server.' });
 
-      // Use a library like Resemble.js for image comparison
-      resemble(base64Image1).compareTo(base64Image2).ignoreAntialiasing().onComplete(result => {
-        res.json({ diffPercentage: result.rawMisMatchPercentage });
-      });
-  } catch (error) {
-      console.error('Error comparing screenshots:', error);
-      res.status(500).json({ error: 'Internal server error' });
+  }catch (error) {
+    console.error('Error saving screenshot:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
