@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TakeScreenShots from '../../Functions/TakeScreenShots';
 
 const Login = ({ onLogin }) => {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
   const navigate = useNavigate();
+
+  const handleCapture = (dataUrl) => {
+    console.log("here i come");
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    
 
     try {
       if (!username || !password) {
@@ -33,7 +38,6 @@ const Login = ({ onLogin }) => {
         if (onLogin) {
           onLogin();
         }
-
         navigate('/home');
       } else {
         const error = await response.json();
@@ -49,7 +53,7 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h1>Login</h1>
-      <TakeScreenShots shouldCapture={true}/>
+      <TakeScreenShots shouldCapture={true} onCapture={handleCapture}/>
       <form onSubmit={handleLogin}>
         <div>
           <label>

@@ -1,3 +1,5 @@
+const pixelmatch = require('pixelmatch');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,8 +12,10 @@ const uri ="mongodb+srv://pao0318:Nitrkl%402019@cluster0.5ejsm1x.mongodb.net/?re
 
 const fs = require('fs');
 const path = require('path');
+const Jimp = require('jimp');
 
-
+// Increase payload size limit to 50MB (adjust as needed)
+app.use(bodyParser.json({ limit: '50mb' }));
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -29,10 +33,11 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Middleware
-app.use(bodyParser.json());
-app.use(cors());
-// Routes
 
+app.use(express.json({ limit: '50mb' }));
+app.use(cors());
+
+// Routes
 
 app.post('/api/signup', async (req, res) => {
   try {
@@ -96,6 +101,34 @@ app.post('/api/save-screenshot', async(req, res) => {
 
   }catch (error) {
     console.error('Error saving screenshot:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/compare-images', async (req, res) => {
+  try {
+    const { img1, img2 } = req.body;
+
+    const image1 = await Jimp.read(Buffer.from(img1, 'base64'));
+    const image2 = await Jimp.read(Buffer.from(img2, 'base64'));
+
+    // Ensure images have the same dimensions
+    if (image1.bitmap.width !== image2.bitmap.width || image1.bitmap.height !== image2.bitmap.height) {
+      return res.status(400).json({ error: 'Images must have the same dimensions for comparison.' });
+    }
+
+    const width = image1.bitmap.width;
+    const height = image1.bitmap.height;
+
+    const diffPixels = new Uint8Array(width * height);
+    pixelmatch(image1.bitmap.data, image2.bitmap.data, diffPixels, width, height, { threshold: 0.1 });
+
+    const totalPixels = width * height;
+    const percentageDifference = (diffPixels.reduce((acc, pixel) => acc + pixel, 0) / totalPixels) * 100;
+
+    res.status(200).json({ similarity: 100 - percentageDifference });
+  } catch (error) {
+    console.error('Error comparing images:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

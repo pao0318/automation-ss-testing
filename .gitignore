@@ -1,5 +1,6 @@
 FE/node_modules
 FE/package-lock.json
 FE/public/screenshots/
+flask-be/venv
 be/node_modules
 be/package-lock.json

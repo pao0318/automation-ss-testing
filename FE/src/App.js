@@ -5,6 +5,7 @@ import Homepage from './components/Home/HomePage.js';
 import Signup from './components/SignUp/SignUp.js';
 import './App.css';
 import Navbar from './components/Navbar.js';
+import ImageComparison from './Functions/ImageComparison.js';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
           </Routes>
         </main>
+        <ImageComparison/>
       </div>
     </Router>
   );

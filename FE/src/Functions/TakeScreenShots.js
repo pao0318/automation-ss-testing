@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import html2canvas from 'html2canvas';
 
-const TakeScreenShots = ({shouldCapture}) => {
+const TakeScreenShots = ({shouldCapture, onCapture}) => {
   useEffect(() => {
     const captureScreenshot = async () => {
       try {
