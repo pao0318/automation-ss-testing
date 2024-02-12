@@ -4,24 +4,33 @@ const ImageComparison = () => {
   const [img1, setImg1] = useState('');
   const [img2, setImg2] = useState('');
   const [similarityScore, setSimilarityScore] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleImageUpload = async (e, setImage) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+    try {
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      const imageData = reader.result;
-      setImage(imageData);
-    };
+      reader.onloadend = () => {
+        const imageData = reader.result;
+        setImage(imageData);
+      };
 
-    if (file) {
-      reader.readAsDataURL(file);
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error.message);
     }
   };
 
   const compareImages = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      const response = await fetch('http://localhost:8080/api/compare-images', {
+      const response = await fetch(process.env.REACT_APP_SERVER_URL || 'http://localhost:8080/api/compare-images', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,9 +43,13 @@ const ImageComparison = () => {
         setSimilarityScore(result.similarity);
       } else {
         console.error('Failed to compare images:', response.statusText);
+        setError('Failed to compare images. Please try again.');
       }
     } catch (error) {
       console.error('Error comparing images:', error.message);
+      setError('Error comparing images. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,7 +57,11 @@ const ImageComparison = () => {
     <div>
       <input type="file" onChange={(e) => handleImageUpload(e, setImg1)} />
       <input type="file" onChange={(e) => handleImageUpload(e, setImg2)} />
-      <button onClick={compareImages}>Compare Images</button>
+      <button onClick={compareImages} disabled={loading}>
+        {loading ? 'Comparing...' : 'Compare Images'}
+      </button>
+
+      {error && <div style={{ color: 'red' }}>{error}</div>}
 
       {similarityScore !== null && (
         <div>

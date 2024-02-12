@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useNavigate } from 'react';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate =  useNavigate()
 
   const handleSignup = async () => {
     try {
@@ -16,6 +17,7 @@ const Signup = () => {
 
       if (response.ok) {
         const result = await response.json();
+        navigate('/login')
         console.log(result.message); // Print the message from the backend
       } else {
         const error = await response.json();
