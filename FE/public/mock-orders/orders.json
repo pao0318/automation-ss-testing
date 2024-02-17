@@ -1,0 +1,52 @@
+{
+    "orders": [
+      {
+        "id": 1,
+        "image": "url/to/product-image1.jpg",
+        "reviewStars": 4,
+        "description": "Product A - Lorem ipsum dolor sit amet.",
+        "status": "Delivered",
+        "orderNumber": "ORD123456"
+      },
+      {
+        "id": 2,
+        "image": "url/to/product-image2.jpg",
+        "reviewStars": 5,
+        "description": "Product B - Consectetur adipiscing elit.",
+        "status": "In Progress",
+        "orderNumber": "ORD789012"
+      },
+      {
+        "id": 3,
+        "image": "url/to/product-image3.jpg",
+        "reviewStars": 3,
+        "description": "Product C - Sed do eiusmod tempor incididunt.",
+        "status": "Cancelled",
+        "orderNumber": "ORD345678"
+      },
+      {
+        "id": 4,
+        "image": "url/to/product-image4.jpg",
+        "reviewStars": 0,
+        "description": "Product D - Ut labore et dolore magna aliqua.",
+        "status": "PickupComplete",
+        "orderNumber": "ORD901234"
+      },
+      {
+        "id": 5,
+        "image": "url/to/product-image5.jpg",
+        "reviewStars": 2,
+        "description": "Product E - Duis aute irure dolor in reprehenderit.",
+        "status": "Returned",
+        "orderNumber": "ORD567890"
+      },
+      {
+        "id": 6,
+        "image": "url/to/product-image6.jpg",
+        "reviewStars": 1,
+        "description": "Product F - Excepteur sint occaecat cupidatat non proident.",
+        "status": "Delayed",
+        "orderNumber": "ORD234567"
+      }
+    ]
+  }

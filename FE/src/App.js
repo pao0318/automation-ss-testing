@@ -5,7 +5,7 @@ import Homepage from './components/Home/HomePage.js';
 import Signup from './components/SignUp/SignUp.js';
 import './App.css';
 import Navbar from './components/Navbar.js';
-import ImageComparison from './Functions/ImageComparison.js';
+import OrderHistory from './components/OrderHistory/OrderHistory.js';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,9 +34,9 @@ const App = () => {
             <Route path="/home" element={loggedIn ? <Homepage onLogout={() => setLoggedIn(false)} /> : <Navigate to="/login" />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
+            <Route path='/orders' element={<OrderHistory/>}/>
           </Routes>
         </main>
-        <ImageComparison/>
       </div>
     </Router>
   );
