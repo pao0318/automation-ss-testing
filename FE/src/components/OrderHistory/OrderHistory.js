@@ -9,32 +9,15 @@ import { Pagination } from '@mui/material';
 import Filters from './Filters';
 import useStyles from './styles';
 
-const OrderHistoryComponent = () => {
+const OrderHistory = ({orders}) => {
   const classes = useStyles();
-  const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [page, setPage] = useState(1);
   const ordersPerPage = 5;
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/orders');
-        const data = await response.json();
-
-        if (response.ok) {
-          setOrders(data.orders);
-          setFilteredOrders(data.orders);
-        } else {
-          console.error('Error fetching orders:', data.error);
-        }
-      } catch (error) {
-        console.error('Error fetching orders:', error.message);
-      }
-    };
-
-    fetchOrders();
-  }, []);
+    setFilteredOrders(orders);
+  }, [orders]); 
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -57,12 +40,12 @@ const OrderHistoryComponent = () => {
     } else {
       filtered = orders;
     }
-  
+
     setFilteredOrders(filtered);
     console.log(filteredOrders)
     setPage(1);
   };
-  
+
 
   const startIndex = (page - 1) * ordersPerPage;
   const endIndex = startIndex + ordersPerPage;
@@ -90,4 +73,4 @@ const OrderHistoryComponent = () => {
   );
 };
 
-export default OrderHistoryComponent;
+export default OrderHistory;

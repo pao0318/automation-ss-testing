@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const OrderCard = ({ order }) => {
   const classes = useStyles();
@@ -41,6 +43,9 @@ const OrderCard = ({ order }) => {
           <Typography variant="body2" color="text.secondary" className={classes.orderNumber}>
             Order No: {orderNumber}
           </Typography>
+          <Button variant="contained" color="primary" component={Link} to={`/order-details/${id}`}>
+            Details
+          </Button>
           </div>
         </CardContent>
       </Card>
