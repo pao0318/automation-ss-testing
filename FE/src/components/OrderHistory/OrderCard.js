@@ -9,6 +9,22 @@ import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
+const buttonStyle = {
+  margin: '8px',
+  width: 'auto',
+}
+const statusStyle = {
+  fontSize: '2.0rem',
+  position: 'absolute',
+  top:'50%',
+  bottom: '50%',
+  left:'50%',
+  right:'50%',
+  fontWeight: 'bold',
+  whiteSpace: 'nowrap', 
+  textOverflow: 'ellipsis',
+};
+
 const OrderCard = ({ order }) => {
   const classes = useStyles();
   const { id, image, description, status, orderNumber, reviewStars } = order;
@@ -17,6 +33,7 @@ const OrderCard = ({ order }) => {
   return (
     <Grid item xs={12} sm={6} md={12} lg={12} xl={12}>
       <Card className={classes.card}>
+        <div className={classes.mediaWrapper}>
         <CardMedia
           component="img"
           alt={`Product ${id}`}
@@ -28,28 +45,39 @@ const OrderCard = ({ order }) => {
             objectFit: 'cover',
           }}
         />
-        <CardContent className={classes.content}>
-          <Typography gutterBottom variant="subtitle1" component="div" className={classes.description}>
-            {slicedDescription}
-          </Typography>
-          <CardContent/>
-        <div className={classes.statusAndOrder}>
-          <Typography variant="body2" gutterBottom className={classes.status}>
-            Status: {status}
-          </Typography>
-          <Typography variant="subtitle1" component="div" className={classes.reviews}>
+        <Typography variant="subtitle1" component="div" className={classes.reviews}>
             Review Stars: {reviewStars}
           </Typography>
-          <Typography variant="body2" color="text.secondary" className={classes.orderNumber}>
+        </div>
+        <div className={classes.content}>
+        <div className={classes.topContent}>
+        <Typography gutterBottom variant="subtitle1" component="div" className={classes.description}>
+            {slicedDescription}
+          </Typography>
+          <Link to={`/order-details/${id}`} className={classes.viewDetailsLink}>
+            View Details &gt;
+          </Link>
+          </div>
+          <div className={classes.bottomContent}>
+          <Typography style= {statusStyle} variant="body1">
+            {status}
+          </Typography>
+          <Typography variant="caption" className={classes.orderNumber}>
             Order No: {orderNumber}
           </Typography>
-          <Button variant="contained" color="primary" component={Link} to={`/order-details/${id}`}>
-            Details
-          </Button>
+          <div className={classes.actions} >
+          
+            <Button style={buttonStyle} variant="contained" color="primary" className={classes.button}>
+              Track Package
+            </Button>
+            <Button style={buttonStyle} variant="contained" className={classes.button}>
+              Buy it Again
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-    </Grid>
+        </div>
+      </div>
+    </Card>
+     </Grid>
   );
 };
 
