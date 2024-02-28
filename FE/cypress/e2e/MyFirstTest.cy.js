@@ -1,8 +1,7 @@
 describe('My First Test', () => {
 
     it('test1', () => {
-        cy.visit("https://www.google.com/")
-        cy.title().should("eq","Google")
+        cy.visit("http://localhost:3000/orders/")
+        cy.get('.MuiButton-label').should("eq","FILTER");
     })
-    
 });
